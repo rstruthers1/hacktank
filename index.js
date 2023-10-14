@@ -1,8 +1,21 @@
+const mysql = require('mysql2');
 const cool = require('cool-ascii-faces')
 const express = require('express')
 const path = require('path')
 
 const PORT = process.env.PORT || 5001
+
+const connection = mysql.createConnection({
+    connectionUri: process.env.JAWSDB_URL
+});
+
+connection.query(
+    'SELECT * FROM animals',
+    function(err, results, fields) {
+        console.log(results); // results contains rows returned by server
+        console.log(fields); // fields contains extra meta data about results, if available
+    }
+);
 
 express()
   .use(express.static(path.join(__dirname, 'public')))
