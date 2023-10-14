@@ -37,7 +37,7 @@ app.use((err, req, res, next) => {
 })
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
-app.get('/', (req, res) => res.render('pages/index'))
+// app.get('/', (req, res) => res.render('pages/index'))
 app.get('/cool', (req, res) => res.send(cool()))
 app.get('/times', (req, res) => res.send(showTimes()))
 // comment
