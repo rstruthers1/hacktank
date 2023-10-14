@@ -40,6 +40,15 @@ app.set('view engine', 'ejs')
 app.get('/', (req, res) => res.render('pages/index'))
 app.get('/cool', (req, res) => res.send(cool()))
 app.get('/times', (req, res) => res.send(showTimes()))
+
+if (process.env.NODE_ENV === 'production') {
+    // Set static folder
+    app.use(express.static('client/build'));
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+    });
+}
 app.listen(PORT, () => console.log(`Listening on ${PORT}`))
 
 
