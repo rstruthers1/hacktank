@@ -22,26 +22,25 @@ app.use('/', animalsRouter);
 
 connection.query(
     'SELECT * FROM animals',
-    function(err, results, fields) {
+    function (err, results, fields) {
         console.log(results); // results contains rows returned by server
         console.log(fields); // fields contains extra meta data about results, if available
     }
 );
 
 
-express()
-  .use(express.static(path.join(__dirname, 'public')))
-    .use('/', animalsRouter)
-    .use((err, req, res, next) => {
-        console.error(err.stack)
-        res.status(500).send(err)
-    })
-  .set('views', path.join(__dirname, 'views'))
-  .set('view engine', 'ejs')
-  .get('/', (req, res) => res.render('pages/index'))
-    .get('/cool', (req, res) => res.send(cool()))
-    .get('/times', (req, res) => res.send(showTimes()))
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`))
+app.use(express.static(path.join(__dirname, 'public')))
+app.use('/', animalsRouter)
+app.use((err, req, res, next) => {
+    console.error(err.stack)
+    res.status(500).send(err)
+})
+app.set('views', path.join(__dirname, 'views'))
+app.set('view engine', 'ejs')
+app.get('/', (req, res) => res.render('pages/index'))
+app.get('/cool', (req, res) => res.send(cool()))
+app.get('/times', (req, res) => res.send(showTimes()))
+app.listen(PORT, () => console.log(`Listening on ${PORT}`))
 
 
 function showTimes() {
