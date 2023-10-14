@@ -40,7 +40,7 @@ app.set('view engine', 'ejs')
 app.get('/', (req, res) => res.render('pages/index'))
 app.get('/cool', (req, res) => res.send(cool()))
 app.get('/times', (req, res) => res.send(showTimes()))
-
+// comment
 if (process.env.NODE_ENV === 'production') {
     // Set static folder
     app.use(express.static('client/build'));
