@@ -1,0 +1,56 @@
+[
+  {
+    "teamId": 1,
+    "teamName": "team1",
+    "investmentId": null,
+    "investmentCapital": "200",
+    "hackId": 9,
+    "hackName": "No-Touch SMB Customer Onboarding",
+    "hackType": "PRODUCT"
+  },
+  {
+    "teamId": 1,
+    "teamName": "team1",
+    "investmentId": null,
+    "investmentCapital": "300",
+    "hackId": 10,
+    "hackName": "CRMC/ Support Case - Triage",
+    "hackType": "ENG"
+  },
+  {
+    "teamId": 3,
+    "teamName": "team3",
+    "investmentId": null,
+    "investmentCapital": null,
+    "hackId": 13,
+    "hackName": "Capture Instruction Text Extractor",
+    "hackType": "PRODUCT"
+  },
+  {
+    "teamId": 3,
+    "teamName": "team3",
+    "investmentId": null,
+    "investmentCapital": null,
+    "hackId": 14,
+    "hackName": "First Responder",
+    "hackType": "ENG"
+  },
+  {
+    "teamId": 4,
+    "teamName": "team4",
+    "investmentId": null,
+    "investmentCapital": null,
+    "hackId": 15,
+    "hackName": "Intelligent Employee banking with AI",
+    "hackType": "PRODUCT"
+  },
+  {
+    "teamId": 4,
+    "teamName": "team4",
+    "investmentId": null,
+    "investmentCapital": null,
+    "hackId": 16,
+    "hackName": "Doc-er",
+    "hackType": "ENG"
+  }
+]

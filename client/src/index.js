@@ -1,13 +1,50 @@
+import './index.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
+
+import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import Root from "./routes/root";
 import reportWebVitals from './reportWebVitals';
+import RouterErrorPage from "./RouterErrorPage";
+import HomePage from "./components/HomePage";
+
+import { Provider } from "react-redux";
+import store from "./store";
+import Register from "./components/Register";
+import Login from "./components/Login";
+import Dashboard from "./components/Dashboard";
+
+const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <Root/>,
+        errorElement: <RouterErrorPage/>,
+
+        children: [
+            { path: "", element: <HomePage/> },
+            {
+                path: "register",
+                element: <Register/>,
+            },
+            {
+                path: "dashboard",
+                element: <Dashboard/>,
+            },
+            {
+                path: "login",
+                element: <Login/>,
+            }
+        ]
+    }
+]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
   </React.StrictMode>
 );
 

@@ -68,3 +68,12 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+### Credits
+* https://github.com/bezkoder/react-redux-login-example
+  * https://formik.org/docs/overview
+* https://github.com/bezkoder/node-js-jwt-auth
+* https://www.canva.com/ai-image-generator/: used to create home page shark tank image
+* https://blog.greenroots.info/3-quick-ways-to-add-fonts-to-your-react-app
+  * https://fonts.google.com/specimen/Permanent+Marker?preview.text=Welcome%20to%20sharktank
+
