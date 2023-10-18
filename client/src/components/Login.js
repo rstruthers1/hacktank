@@ -93,11 +93,6 @@ const Login = () => {
                             </button>
 
                         </div>
-                        <div className="form-group" style={{paddingTop: "10px"}}>
-                            <LinkContainer to="/register">
-                                <a>Don't have an account? Register</a>
-                            </LinkContainer>
-                        </div>
                     </Form>
                 </Formik>
             </div>
