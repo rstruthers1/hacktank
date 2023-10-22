@@ -1,8 +1,7 @@
 import {Outlet} from "react-router-dom";
 import {Nav, Navbar, NavDropdown} from "react-bootstrap";
 import {LinkContainer} from 'react-router-bootstrap'
-import {GiSharkFin, GiSharkJaws} from "react-icons/gi";
-import {head} from "axios";
+import {GiSharkFin} from "react-icons/gi";
 import {useSelector} from "react-redux";
 
 
@@ -26,9 +25,6 @@ export default function Root() {
                         <LinkContainer to="/rankings">
                             <NavDropdown.Item disabled={!isLoggedIn}>View Rankings</NavDropdown.Item>
                         </LinkContainer>
-                        {/*<LinkContainer to="/loginPage">*/}
-                        {/*    <NavDropdown.Item >Login Page</NavDropdown.Item>*/}
-                        {/*</LinkContainer>*/}
                     </NavDropdown>
                 </Nav>
             </Navbar>
