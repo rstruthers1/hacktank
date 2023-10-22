@@ -13,7 +13,12 @@ import { Provider } from "react-redux";
 import store from "./store";
 import Register from "./components/Register";
 import Login from "./components/Login";
-import Dashboard from "./components/Dashboard";
+import Invest from "./components/Invest";
+import InvestmentRankings from "./components/InvestmentRankings";
+import LoginPage from "./components/LoginPage";
+import StockTicker from "./components/StockTicker";
+import StockTicker2 from "./components/StockTicker2";
+import TickerFeed from "./components/TickerFeed";
 
 const router = createBrowserRouter([
     {
@@ -28,12 +33,34 @@ const router = createBrowserRouter([
                 element: <Register/>,
             },
             {
-                path: "dashboard",
-                element: <Dashboard/>,
+                path: "invest",
+                element: <Invest/>,
+            },
+            {
+                path: "rankings",
+                element: <InvestmentRankings/>,
             },
             {
                 path: "login",
                 element: <Login/>,
+            }
+            ,
+            {
+                path: "loginPage",
+                element: <LoginPage/>,
+            }
+            ,
+            {
+                path: "stocks",
+                element: <StockTicker/>,
+            },
+            {
+                path: "stocks2",
+                element: <StockTicker2/>,
+            },
+            {
+                path: "stocks3",
+                element: <TickerFeed/>,
             }
         ]
     }

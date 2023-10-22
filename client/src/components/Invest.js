@@ -7,8 +7,9 @@ import {
 import HacksInvestmentsForm from "./HacksInvestmentsForm";
 import {fetchInvestor, getInvestor, getInvestorError, getInvestorStatus} from "../slices/investor";
 import {Atom} from "react-loading-indicators";
+import {Col, Row} from "react-bootstrap";
 
-const Dashboard = () => {
+const Invest = () => {
   const { user: currentUser } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
     const investments = useSelector(getInvestments);
@@ -32,27 +33,14 @@ const Dashboard = () => {
   }
 
 
-  /*
-    let investmentsContent = 'TODO: list investments';
-
-    if (investmentsStatus === 'loading' || investorStatus === 'loading') {
-        investmentsContent = <h2>Loading...</h2>
-    } else if (investmentsStatus === 'succeeded' && investorStatus === 'succeeded') {
-        investmentsContent = <div>
-            <HacksInvestmentsForm investments={investments} investor={investor}/>
-        </div>
-    } else if (investmentsStatus === 'failed') {
-        investmentsContent = <p>{JSON.stringify(error)}</p>;
-    }
-
-   */
 
   return (
     <div className="container">
 
-        <h1>
+        <h1 className="text-center">
            Team {currentUser.username}
         </h1>
+
 
 
         <div>
@@ -63,4 +51,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Invest;

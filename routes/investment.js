@@ -72,6 +72,21 @@ investmentRouter.route('/investment/investors/:id/hacks/investments').post(async
     }
 })
 
+investmentRouter.route('/investment/hacks/investments/totals').get(async (request, response, next) => {
+    try {
+        const invs = await knex('hacks as h')
+            .leftJoin('users as team', 'h.teamId', 'team.id')
+            .leftJoin('investments as inv', 'h.id', 'inv.hackId')
+            .select('h.id as hackId', 'h.name as hackName', 'h.hackType','team.id as teamId', 'team.username as teamName')
+            .sum('inv.capital as totalCapital')
+            .groupBy('hackId', 'hackName', 'hackType', 'teamId', 'teamName')
+            .orderByRaw('totalCapital desc')
+        response.json(invs)
+    } catch(err) {
+        next(err)
+    }
+})
+
 
 
 

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import './TeamHacksTable.css';
-import {Button} from "react-bootstrap";
+import {Button, Col, Row} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
 import {Atom, Mosaic, ThreeDot} from "react-loading-indicators";
 import {
@@ -12,8 +12,7 @@ import {
 
 } from "../slices/investment";
 import RandomLoadingIndicator from "./RandomLoadingIndicator";
-
-
+import sharkTankImage from "../images/sharks-judging.png"
 
 
 const HacksInvestmentsForm = ({investments, investor}) => {
@@ -23,28 +22,8 @@ const HacksInvestmentsForm = ({investments, investor}) => {
     const [remainingBudget, setRemainingBudget] = useState(investor.budget);
 
     const dispatch = useDispatch();
-    const postedInvestmentsSelector = useSelector(postedInvestments);
     const postedInvestmentsStatusSelector = useSelector(postedInvestmentsStatus);
-    const postedInvestmentErrorSelector = useSelector(postedInvestmentsError);
     const investmentsOperationSelector = useSelector(investmentsOperation);
-
-    console.log(`*** HacksInvestmentsForm, investor: ${JSON.stringify(investor)}`)
-    console.log(`*** HacksInvestmentsForm, investments: ${JSON.stringify(investments)}`)
-
-    useEffect(() => {
-        // Calculate total investments whenever editedInvestments or data changes
-        const calculatedTotal = Object.values(editedInvestments).reduce((acc, investment) => acc + parseInt(investment || 0, 10), 0);
-        setTotalInvestments(calculatedTotal);
-        // Calculate remaining budget
-        setRemainingBudget(investor.budget - calculatedTotal);
-    }, [editedInvestments, teamsData]);
-
-    const handleInvestmentChange = (teamId, hackId, value) => {
-        setEditedInvestments(prevState => ({
-            ...prevState,
-            [`${teamId}-${hackId}`]: value
-        }));
-    };
 
     useEffect(() => {
         const output = investments.reduce((acc, curr) => {
@@ -84,7 +63,23 @@ const HacksInvestmentsForm = ({investments, investor}) => {
         })
         setEditedInvestments(teamHackAmounts)
 
-    }, [investments, investor]);
+    }, [postedInvestmentsStatusSelector]);
+
+    useEffect(() => {
+        // Calculate total investments whenever editedInvestments or data changes
+        const calculatedTotal = Object.values(editedInvestments).reduce((acc, investment) => acc + parseInt(investment || 0, 10), 0);
+        setTotalInvestments(calculatedTotal);
+        // Calculate remaining budget
+        setRemainingBudget(investor.budget - calculatedTotal);
+    }, [editedInvestments]);
+
+    const handleInvestmentChange = (teamId, hackId, value) => {
+        console.log(`*** handleInvestmentChange: ${value}`)
+        setEditedInvestments(prevState => ({
+            ...prevState,
+            [`${teamId}-${hackId}`]: value
+        }));
+    };
 
     const submitInvestments = () => {
         const convertedData = investments.map(item => {
@@ -109,15 +104,23 @@ const HacksInvestmentsForm = ({investments, investor}) => {
 
     return (
         <>
-            <h2>Hack Investments</h2>
+            <h2 className="text-center">Hack Investments</h2>
+
+
+            <Row style={{marginBottom: "40px", marginTop: "30px"}}>
+                <Col lg={4} className="m-auto" >
+                    <div style={{textAlign: "center"}}>Total Budget: ${investor.budget}</div>
+                    <div style={{textAlign: "center"}}>Total Investments: ${totalInvestments}</div>
+                    <div style={{textAlign: "center"}}>Remaining Budget: ${remainingBudget}</div>
+                </Col>
+            </Row>
+
 
             {postedInvestmentsStatusSelector === 'loading'  && investmentsOperationSelector === 'fetch' ?
                 <ThreeDot  color="darkgrey" size="medium" text="Loading" textColor="" /> :
             <div>
-                <div>Total Budget: ${investor.budget}</div>
-                <div>Total Investments: ${totalInvestments}</div>
-                <div>Remaining Budget: ${remainingBudget}</div>
-                <table className="team-hacks-table">
+
+                <table className="team-hacks-table" >
                     <thead>
                     <tr>
                         <th>Team Name</th>
@@ -139,7 +142,7 @@ const HacksInvestmentsForm = ({investments, investor}) => {
                                     <td><input
                                         disabled={postedInvestmentsStatusSelector === 'loading'}
                                         type="text"
-                                        value={editedInvestments[`${team.teamId}-${hack.hackId}`] || hack.investmentCapital}
+                                        value={editedInvestments[`${team.teamId}-${hack.hackId}`]}
                                         onChange={(e) => handleInvestmentChange(team.teamId, hack.hackId, e.target.value)}
                                     /></td>
                                 </tr>
@@ -156,7 +159,9 @@ const HacksInvestmentsForm = ({investments, investor}) => {
                             size="medium"/>
                     </div>
                 }
-            </div> }
+
+            </div>
+            }
 
         </>
     )
