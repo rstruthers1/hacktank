@@ -15,10 +15,15 @@ const getInvestor = (id) => {
     return axios.get(`${API_URL}/investors/${id}`);
 }
 
+const getHackInvestmentTotals = () => {
+    return axios.get(`${API_URL}/hacks/investments/totals`);
+}
+
 const InvestmentService = {
     getInvestorHacksInvestments,
     postInvestorHacksInvestments,
-    getInvestor
+    getInvestor,
+    getHackInvestmentTotals
 }
 
 export default InvestmentService;

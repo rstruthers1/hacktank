@@ -1,0 +1,20 @@
+.sticker-tape-container {
+    overflow: hidden;
+    height: 50px;
+}
+
+.sticker {
+    display: inline-block;
+    margin-right: 20px;
+    padding: 10px 20px;
+    background-color: #ffcc00;
+    border-radius: 20px;
+    opacity: 0;
+    transform: translateY(-50%);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.sticker.active {
+    opacity: 1;
+    transform: translateY(0);
+}

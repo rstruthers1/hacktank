@@ -7,6 +7,7 @@ import * as Yup from "yup";
 import { login } from "../slices/auth";
 import { clearMessage } from "../slices/message";
 import {LinkContainer} from "react-router-bootstrap";
+import {Row} from "react-bootstrap";
 
 const Login = () => {
     let navigate = useNavigate();
@@ -39,7 +40,7 @@ const Login = () => {
         dispatch(login({ username, password }))
             .unwrap()
             .then(() => {
-                navigate("/dashboard");
+                navigate("/");
                 window.location.reload();
             })
             .catch(() => {
@@ -55,7 +56,7 @@ const Login = () => {
      */
 
     return (
-        <div className="col-md-12 login-form">
+        <div className="d-flex justify-content-center align-items-center vh-100" style={{marginTop: "-10vh"}}>
             <div className="card card-container">
 
                 <Formik
@@ -65,7 +66,7 @@ const Login = () => {
                 >
                     <Form>
                         <div className="form-group">
-                            <label htmlFor="username">Username</label>
+                            <label htmlFor="username" >Username</label>
                             <Field name="username" type="text" className="form-control" />
                             <ErrorMessage
                                 name="username"
@@ -105,6 +106,8 @@ const Login = () => {
                 </div>
             )}
         </div>
+
+
     );
 };
 

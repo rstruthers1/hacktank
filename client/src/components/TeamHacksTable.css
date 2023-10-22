@@ -11,11 +11,12 @@
     text-align: left;
 }
 
-.team-hacks-table th {
-    background-color: #f2f2f2;
-}
+/*.team-hacks-table th {*/
+/*    background-color: #f2f2f2;*/
+/*}*/
 
 .team-hacks-table input {
     text-align: right;
 
 }
+

@@ -2,9 +2,12 @@ import {Outlet} from "react-router-dom";
 import {Nav, Navbar, NavDropdown} from "react-bootstrap";
 import {LinkContainer} from 'react-router-bootstrap'
 import {GiSharkFin, GiSharkJaws} from "react-icons/gi";
+import {head} from "axios";
+import {useSelector} from "react-redux";
 
 
 export default function Root() {
+    const { isLoggedIn } = useSelector((state) => state.auth);
     return (
         <>
             <Navbar style={{background: "lightgray"}}>
@@ -16,14 +19,20 @@ export default function Root() {
                     </Navbar.Brand>
                 </LinkContainer>
                 <Nav>
-                    <NavDropdown title="Team" id="basic-nav-dropdown" >
-                        <LinkContainer to="/dashboard">
-                            <NavDropdown.Item >Dashboard</NavDropdown.Item>
+                    <NavDropdown title="Sharks" id="basic-nav-dropdown" >
+                        <LinkContainer to="/invest">
+                            <NavDropdown.Item disabled={!isLoggedIn}>Invest</NavDropdown.Item>
                         </LinkContainer>
+                        <LinkContainer to="/rankings">
+                            <NavDropdown.Item disabled={!isLoggedIn}>View Rankings</NavDropdown.Item>
+                        </LinkContainer>
+                        {/*<LinkContainer to="/loginPage">*/}
+                        {/*    <NavDropdown.Item >Login Page</NavDropdown.Item>*/}
+                        {/*</LinkContainer>*/}
                     </NavDropdown>
                 </Nav>
             </Navbar>
-            <div id="detail"><Outlet/></div>
+            <div id="detail" style={{background: "black", color: "white", minHeight: "100vh"}}><Outlet/></div>
         </>
     );
 }
