@@ -2,22 +2,17 @@ import React, {useEffect} from "react";
 import { Navigate } from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
 import {
-    fetchInvestments
+    fetchInvestments, getInvestments
 } from "../slices/investment";
 import HacksInvestmentsForm from "./HacksInvestmentsForm";
-import {fetchInvestor} from "../slices/investor";
+import {fetchInvestor, getInvestor} from "../slices/investor";
 
 
 const Invest = () => {
   const { user: currentUser } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
     const investments = useSelector(getInvestments);
-
-
     const investor = useSelector(getInvestor)
-
-
-
 
     useEffect(() => {
         if (currentUser?.id) {
