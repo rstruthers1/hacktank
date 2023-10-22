@@ -2,23 +2,17 @@ import React, {useEffect, useState} from 'react';
 import './TeamHacksTable.css';
 import {useDispatch, useSelector} from "react-redux";
 import {
-    fetchHackInvestmentTotals, getHackInvestmentTotals, getHackInvestmentTotalsError, getHackInvestmentTotalsStatus,
-
+    fetchHackInvestmentTotals, getHackInvestmentTotals,
 } from "../slices/hackInvestmentTotals";
-import {ThreeDot} from "react-loading-indicators";
-import Table from 'react-bootstrap/Table';
-import RandomLoadingIndicator from "./RandomLoadingIndicator";
+
 
 
 const InvestmentRankings = () => {
     const dispatch = useDispatch();
 
     const hackInvestmentTotals = useSelector(getHackInvestmentTotals);
-    const hackInvestmentTotalsStatus = useSelector(getHackInvestmentTotalsStatus);
-    const hackInvestmentTotalsError = useSelector(getHackInvestmentTotalsError);
 
 
-    const { user: currentUser } = useSelector((state) => state.auth);
     const [lastUpdated, setLastUpdated] = useState(null);
 
     useEffect(() => {
@@ -54,6 +48,24 @@ const InvestmentRankings = () => {
     }, [dispatch]);
 
 
+    function getTotalInvested() {
+        if (!hackInvestmentTotals) {
+            return 0;
+        }
+        let total = 0;
+        for (let i = 0; i < hackInvestmentTotals.length; i++) {
+            const hackInv = hackInvestmentTotals[i];
+            let hackTotal = 0;
+            try {
+                hackTotal = parseInt(hackInv.totalCapital);
+            } catch (err) {
+                console.error(err);
+            }
+            total = total + hackTotal;
+        }
+        return total;
+    }
+
     return (
         <div className="container">
             <h1 className="text-center" >
@@ -61,6 +73,7 @@ const InvestmentRankings = () => {
             </h1>
         <div>
             <h2 className="text-center" style={{marginTop: "20px", marginBottom: "10px"}}>Current Rankings</h2>
+            <div className="text-center" style={{color: "white",  fontSize:"large"}}>Total Invested: ${getTotalInvested()}</div>
             {hackInvestmentTotals &&
 
             <table  className="team-hacks-table">
