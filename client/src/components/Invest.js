@@ -1,32 +1,30 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import { Navigate } from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
 import {
-    fetchInvestments, getInvestments, getInvestmentsError, getInvestmentsStatus, postedInvestmentsStatus
+    fetchInvestments
 } from "../slices/investment";
 import HacksInvestmentsForm from "./HacksInvestmentsForm";
-import {fetchInvestor, getInvestor, getInvestorError, getInvestorStatus} from "../slices/investor";
-import {Atom} from "react-loading-indicators";
-import {Col, Row} from "react-bootstrap";
+import {fetchInvestor} from "../slices/investor";
+
 
 const Invest = () => {
   const { user: currentUser } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
     const investments = useSelector(getInvestments);
-    const investmentsStatus = useSelector(getInvestmentsStatus);
-    const error = useSelector(getInvestmentsError);
+
 
     const investor = useSelector(getInvestor)
-    const investorStatus = useSelector(getInvestorStatus);
-    const investorError = useSelector(getInvestorError);
+
 
 
 
     useEffect(() => {
-
+        if (currentUser?.id) {
             dispatch(fetchInvestments(currentUser.id));
             dispatch(fetchInvestor(currentUser.id))
-    }, [currentUser.id]);
+        }
+    }, [currentUser?.id]);
 
   if (!currentUser) {
     return <Navigate to="/login" />;

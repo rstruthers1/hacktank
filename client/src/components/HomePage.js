@@ -1,15 +1,14 @@
-import {Col, Container, Row} from "react-bootstrap";
+import {Col} from "react-bootstrap";
 import sharkTankImage from "../images/shark-tank-transparent-background.png"
-import Login from "./Login";
 import {useDispatch, useSelector} from "react-redux";
 import {useCallback, useEffect} from "react";
 import { logout } from "../slices/auth";
 
 import EventBus from "../common/EventBus";
 import {LinkContainer} from "react-router-bootstrap";
-import {fetchHackInvestmentTotals, getHackInvestmentTotals} from "../slices/hackInvestmentTotals";
-import TickerTape from "./TickerTape";
-import StockTicker from "./StockTicker";
+import {fetchHackInvestmentTotals} from "../slices/hackInvestmentTotals";
+
+
 import StockTicker2 from "./StockTicker2";
 
 
@@ -19,7 +18,6 @@ const HomePage = () => {
     const dispatch = useDispatch();
     const { user: currentUser,  isLoggedIn } = useSelector((state) => state.auth);
 
-    const hackInvestmentTotals = useSelector(getHackInvestmentTotals);
 
     const logOut = useCallback(() => {
         console.log("Log out")

@@ -16,9 +16,9 @@ import Login from "./components/Login";
 import Invest from "./components/Invest";
 import InvestmentRankings from "./components/InvestmentRankings";
 import LoginPage from "./components/LoginPage";
-import StockTicker from "./components/StockTicker";
+
 import StockTicker2 from "./components/StockTicker2";
-import TickerFeed from "./components/TickerFeed";
+
 
 const router = createBrowserRouter([
     {
@@ -51,16 +51,8 @@ const router = createBrowserRouter([
             }
             ,
             {
-                path: "stocks",
-                element: <StockTicker/>,
-            },
-            {
                 path: "stocks2",
                 element: <StockTicker2/>,
-            },
-            {
-                path: "stocks3",
-                element: <TickerFeed/>,
             }
         ]
     }

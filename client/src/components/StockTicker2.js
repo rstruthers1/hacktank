@@ -2,11 +2,10 @@ import React, {useEffect, useState} from 'react';
 import styled, { keyframes } from 'styled-components';
 import { fadeInLeft } from 'react-animations';
 import {useDispatch, useSelector} from "react-redux";
+import './StockTicker.css';
 import {
     fetchHackInvestmentTotals,
-    getHackInvestmentTotals,
-    getHackInvestmentTotalsError,
-    getHackInvestmentTotalsStatus
+    getHackInvestmentTotals
 } from "../slices/hackInvestmentTotals";
 
 const fadeInLeftAnimation = keyframes`${fadeInLeft}`;
@@ -23,34 +22,11 @@ const TickerContainer = styled.div`
   animation: ${fadeInLeftAnimation} 1s, scroll 20s linear infinite;
 `;
 
-const stocks = [
-    { name: 'AAPL', price: '$150.25' },
-    { name: 'GOOGL', price: '$2800.50' },
-    { name: 'AMZN', price: '$3450.75' },
-    { name: 'AAPL', price: '$150.25' },
-    { name: 'GOOGL', price: '$2800.50' },
-    { name: 'AMZN', price: '$3450.75' },
-    { name: 'AAPL', price: '$150.25' },
-    { name: 'GOOGL', price: '$2800.50' },
-    { name: 'AMZN', price: '$3450.75' },
-    { name: 'AAPL', price: '$150.25' },
-    { name: 'GOOGL', price: '$2800.50' },
-    { name: 'AMZN', price: '$3450.75' },
-    { name: 'AAPL', price: '$150.25' },
-    { name: 'GOOGL', price: '$2800.50' },
-    { name: 'AMZN', price: '$3450.75' },
-    { name: 'AAPL', price: '$150.25' },
-    { name: 'GOOGL', price: '$2800.50' },
-    { name: 'AMZN', price: '$3450.75' },
-
-];
 
 const StockTicker2 = () => {
     const dispatch = useDispatch();
 
     const hackInvestmentTotals = useSelector(getHackInvestmentTotals);
-    const hackInvestmentTotalsStatus = useSelector(getHackInvestmentTotalsStatus);
-    const hackInvestmentTotalsError = useSelector(getHackInvestmentTotalsError);
 
     const [lastUpdated, setLastUpdated] = useState(null);
 

@@ -2,28 +2,27 @@ import React, {useEffect, useState} from "react";
 import './TeamHacksTable.css';
 import {Button, Col, Row} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
-import {Atom, Mosaic, ThreeDot} from "react-loading-indicators";
+import {ThreeDot} from "react-loading-indicators";
 import {
-    postedInvestments,
     postedInvestmentsStatus,
-    postedInvestmentsError,
     postInvestments,
     investmentsOperation
 
 } from "../slices/investment";
 import RandomLoadingIndicator from "./RandomLoadingIndicator";
-import sharkTankImage from "../images/sharks-judging.png"
+
 
 
 const HacksInvestmentsForm = ({investments, investor}) => {
     const [teamsData, setTeamsData] = useState([])
     const [editedInvestments, setEditedInvestments] = useState({});
     const [totalInvestments, setTotalInvestments] = useState(0);
-    const [remainingBudget, setRemainingBudget] = useState(investor.budget);
+    const [remainingBudget, setRemainingBudget] = useState(0);
 
     const dispatch = useDispatch();
     const postedInvestmentsStatusSelector = useSelector(postedInvestmentsStatus);
     const investmentsOperationSelector = useSelector(investmentsOperation);
+    const { user: currentUser,  isLoggedIn } = useSelector((state) => state.auth);
 
     useEffect(() => {
         const output = investments.reduce((acc, curr) => {
@@ -54,7 +53,6 @@ const HacksInvestmentsForm = ({investments, investor}) => {
             return acc;
         }, []);
 
-        console.log(JSON.stringify(output, null, 2));
         setTeamsData(output)
         // [`${teamId}-${hackId}`]: value
         const teamHackAmounts = {}
@@ -66,12 +64,14 @@ const HacksInvestmentsForm = ({investments, investor}) => {
     }, [postedInvestmentsStatusSelector]);
 
     useEffect(() => {
-        // Calculate total investments whenever editedInvestments or data changes
-        const calculatedTotal = Object.values(editedInvestments).reduce((acc, investment) => acc + parseInt(investment || 0, 10), 0);
-        setTotalInvestments(calculatedTotal);
-        // Calculate remaining budget
-        setRemainingBudget(investor.budget - calculatedTotal);
-    }, [editedInvestments]);
+        if (postedInvestmentsStatusSelector !== 'loading') {
+            // Calculate total investments whenever editedInvestments or data changes
+            const calculatedTotal = Object.values(editedInvestments).reduce((acc, investment) => acc + parseInt(investment || 0, 10), 0);
+            setTotalInvestments(calculatedTotal);
+            // Calculate remaining budget
+            setRemainingBudget(investor.budget - calculatedTotal);
+        }
+    }, [editedInvestments, currentUser?.id, investor, postedInvestmentsStatusSelector]);
 
     const handleInvestmentChange = (teamId, hackId, value) => {
         console.log(`*** handleInvestmentChange: ${value}`)
@@ -101,11 +101,21 @@ const HacksInvestmentsForm = ({investments, investor}) => {
         submitInvestments()
     }
 
+   if (!isLoggedIn) {
+       return  <><h2 className="text-center">Hack Investments</h2>
+           <Row style={{marginBottom: "40px", marginTop: "30px"}}>
+               <Col lg={4} className="m-auto" >
+                   <div style={{textAlign: "center"}}>You must be logged in to invest</div>
+
+               </Col>
+           </Row>
+           </>
+   }
 
     return (
+
         <>
             <h2 className="text-center">Hack Investments</h2>
-
 
             <Row style={{marginBottom: "40px", marginTop: "30px"}}>
                 <Col lg={4} className="m-auto" >
