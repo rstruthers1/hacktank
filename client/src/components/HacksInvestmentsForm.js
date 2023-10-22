@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import './TeamHacksTable.css';
-import {Button, Col, Row} from "react-bootstrap";
+import {Alert, Button, Col, Modal, Row} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
 import {ThreeDot} from "react-loading-indicators";
 import {
@@ -10,6 +10,7 @@ import {
 
 } from "../slices/investment";
 import RandomLoadingIndicator from "./RandomLoadingIndicator";
+import 'font-awesome/css/font-awesome.min.css'
 
 
 
@@ -23,6 +24,10 @@ const HacksInvestmentsForm = ({investments, investor}) => {
     const postedInvestmentsStatusSelector = useSelector(postedInvestmentsStatus);
     const investmentsOperationSelector = useSelector(investmentsOperation);
     const { user: currentUser,  isLoggedIn } = useSelector((state) => state.auth);
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     useEffect(() => {
         const output = investments.reduce((acc, curr) => {
@@ -74,14 +79,16 @@ const HacksInvestmentsForm = ({investments, investor}) => {
     }, [editedInvestments, currentUser?.id, investor, postedInvestmentsStatusSelector]);
 
     const handleInvestmentChange = (teamId, hackId, value) => {
-        console.log(`*** handleInvestmentChange: ${value}`)
         setEditedInvestments(prevState => ({
             ...prevState,
             [`${teamId}-${hackId}`]: value
         }));
     };
 
+
+
     const submitInvestments = () => {
+
         const convertedData = investments.map(item => {
             const investmentKey = `${item.teamId}-${item.hackId}`;
             return {
@@ -90,15 +97,16 @@ const HacksInvestmentsForm = ({investments, investor}) => {
                 investmentCapital: editedInvestments[investmentKey] || null
             };
         });
-        console.log(`*** convertedData: ${JSON.stringify(convertedData)}`)
-        console.log(`*** investor: ${JSON.stringify(investor)}`)
         dispatch(postInvestments({id: investor.id, investments: convertedData}))
-
     }
 
     const handleSubmitInvestments = (ev) => {
         ev.preventDefault();
-        submitInvestments()
+        if (totalInvestments > investor.budget) {
+            handleShow()
+        } else {
+            submitInvestments()
+        }
     }
 
    if (!isLoggedIn) {
@@ -129,7 +137,9 @@ const HacksInvestmentsForm = ({investments, investor}) => {
             {postedInvestmentsStatusSelector === 'loading'  && investmentsOperationSelector === 'fetch' ?
                 <ThreeDot  color="darkgrey" size="medium" text="Loading" textColor="" /> :
             <div>
-
+                { totalInvestments > investor.budget && <Alert variant="warning">
+                    Warning: you are over budget by ${ totalInvestments - investor.budget}
+                </Alert>}
                 <table className="team-hacks-table" >
                     <thead>
                     <tr>
@@ -161,7 +171,9 @@ const HacksInvestmentsForm = ({investments, investor}) => {
                     ))}
                     </tbody>
                 </table>
-                <Button disabled={postedInvestmentsStatusSelector === 'loading'} onClick={handleSubmitInvestments}>Save</Button>
+                <Button disabled={(postedInvestmentsStatusSelector === 'loading') || (totalInvestments > investor.budget)}
+                        onClick={handleSubmitInvestments}>Save</Button>
+
                 {postedInvestmentsStatusSelector === 'loading'  && investmentsOperationSelector === 'save' &&
                     <div style={{marginTop: "20px"}}>
 
@@ -172,6 +184,20 @@ const HacksInvestmentsForm = ({investments, investor}) => {
 
             </div>
             }
+
+
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title><i className="fa fa-exclamation-triangle text-warning mr-2"></i>&nbsp;Warning</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>You are over budget. Please adjust your investments before submitting.</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="primary" onClick={handleClose}>
+                        Close
+                    </Button>
+
+                </Modal.Footer>
+            </Modal>
 
         </>
     )
