@@ -89,3 +89,56 @@ exports.signin = (req, res) => {
       res.status(500).send({ message: err.message });
     });
 };
+
+exports.changePassword = (req, res) => {
+    console.log(`**** changePassword: ${JSON.stringify(req.body)}`);
+
+    User.findOne({
+        where: {
+            username: req.body.username
+        }
+    })
+        .then(user => {
+            if (!user) {
+                return res.status(404).send({ message: "User Not found." });
+            }
+
+            var passwordIsValid = bcrypt.compareSync(
+                req.body.currentPassword,
+                user.password
+            );
+
+            if (!passwordIsValid) {
+                return res.status(401).send({
+                    accessToken: null,
+                    message: "Invalid Password!"
+                });
+            }
+
+            res.status(200).send({
+                id: user.id,
+                username: user.username,
+                message: "password changed successfully"
+            });
+            User.update({
+                password: bcrypt.hashSync(req.body.newPassword, 8)
+            }, {where: {
+                id: user.id
+                }})
+                .then(user => {
+                    res.status(200).send({
+                        id: user.id,
+                        username: user.username,
+                        message: "password changed successfully"
+                    });
+                })
+                .catch(err => {
+                    res.status(500).send({ message: err.message });
+                });
+
+
+        })
+        .catch(err => {
+            res.status(500).send({ message: err.message });
+        });
+};

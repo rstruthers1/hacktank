@@ -18,6 +18,7 @@ import InvestmentRankings from "./components/InvestmentRankings";
 import LoginPage from "./components/LoginPage";
 
 import StockTicker2 from "./components/StockTicker2";
+import ChangePassword from "./components/ChangePassword";
 
 
 const router = createBrowserRouter([
@@ -53,6 +54,14 @@ const router = createBrowserRouter([
             {
                 path: "stocks2",
                 element: <StockTicker2/>,
+            },
+            {
+                path: "changePassword",
+                element: <ChangePassword/>,
+            },
+            {
+                path: "register",
+                element: <Register/>,
             }
         ]
     }
