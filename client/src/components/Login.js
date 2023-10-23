@@ -48,12 +48,6 @@ const Login = () => {
             });
     };
 
-    /*
-    if (isLoggedIn) {
-        return <Navigate to="/profile" />;
-    }
-
-     */
 
     return (
         <div className="d-flex justify-content-center align-items-center vh-100" style={{marginTop: "-10vh"}}>
