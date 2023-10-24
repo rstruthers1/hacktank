@@ -11,6 +11,8 @@ import {
 } from "../slices/investment";
 import RandomLoadingIndicator from "./RandomLoadingIndicator";
 import 'font-awesome/css/font-awesome.min.css'
+import sharkTankJudgeImageLeftFacing from "../images/shark-judge-facing-left.png";
+import sharkTankJudgeImageRightFacing from "../images/shark-judge-facing-right.png";
 
 
 
@@ -25,6 +27,7 @@ const HacksInvestmentsForm = ({investments, investor}) => {
     const investmentsOperationSelector = useSelector(investmentsOperation);
     const { user: currentUser,  isLoggedIn } = useSelector((state) => state.auth);
     const [show, setShow] = useState(false);
+
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -123,15 +126,20 @@ const HacksInvestmentsForm = ({investments, investor}) => {
     return (
 
         <>
+            <div className="row">
+                <div className="col-md-4 d-flex justify-content-center align-items-center">
+                    <img src={sharkTankJudgeImageRightFacing} className="img-fluid center-image" alt="Left Image" width="150px"/>
+                </div>
+                <div className="col-md-4 middle-text">
             <h2 className="text-center">Hack Investments</h2>
-
-            <Row style={{marginBottom: "40px", marginTop: "30px"}}>
-                <Col lg={4} className="m-auto" >
-                    <div style={{textAlign: "center"}}>Total Budget: ${investor.budget}</div>
-                    <div style={{textAlign: "center"}}>Total Investments: ${totalInvestments}</div>
-                    <div style={{textAlign: "center"}}>Remaining Budget: ${remainingBudget}</div>
-                </Col>
-            </Row>
+            <div style={{textAlign: "center"}}>Total Budget: ${investor.budget}</div>
+            <div style={{textAlign: "center"}}>Total Investments: ${totalInvestments}</div>
+            <div style={{textAlign: "center"}}>Remaining Budget: ${remainingBudget}</div>
+                </div>
+                <div className="col-md-4 d-flex justify-content-center align-items-center">
+                    <img src={sharkTankJudgeImageLeftFacing} className="img-fluid center-image" alt="Right Image" width="150px"/>
+                </div>
+            </div>
 
 
             {postedInvestmentsStatusSelector === 'loading'  && investmentsOperationSelector === 'fetch' ?

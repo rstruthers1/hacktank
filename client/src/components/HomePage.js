@@ -9,7 +9,6 @@ import {LinkContainer} from "react-router-bootstrap";
 import {fetchHackInvestmentTotals} from "../slices/hackInvestmentTotals";
 
 
-import StockTicker2 from "./StockTicker2";
 import InvestmentRankings from "./InvestmentRankings";
 
 
