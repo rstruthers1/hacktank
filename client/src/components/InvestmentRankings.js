@@ -4,6 +4,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {
     fetchHackInvestmentTotals, getHackInvestmentTotals,
 } from "../slices/hackInvestmentTotals";
+import sharkTankImageLeftFacing from "../images/shark-in-tank-left-facing.png";
+import sharkTankImageRightFacing from "../images/shark-in-tank-right-facing.png";
 
 
 
@@ -68,14 +70,17 @@ const InvestmentRankings = () => {
 
     return (
         <div className="container">
+
+
             <h1 className="text-center" >
-                SAP Concur Hackathon 2023
+                <img src={sharkTankImageRightFacing} alt="Left" style={{paddingRight: "20px"}} width="150px"/>
+                Hack Shark Tank 2023
+                <img src={sharkTankImageLeftFacing} alt="Left" style={{paddingLeft: "20px"}} width="150px"/>
             </h1>
         <div>
             <h2 className="text-center" style={{marginTop: "20px", marginBottom: "10px"}}>Current Rankings</h2>
             <div className="text-center" style={{color: "white",  fontSize:"large"}}>Total Invested: ${getTotalInvested()}</div>
             {hackInvestmentTotals &&
-
             <table  className="team-hacks-table">
                 <thead>
                 <tr>
