@@ -6,8 +6,9 @@ import * as Yup from "yup";
 
 import { login } from "../slices/auth";
 import { clearMessage } from "../slices/message";
-import {LinkContainer} from "react-router-bootstrap";
-import {Row} from "react-bootstrap";
+import sharkTank from "../images/shark-tank-transparent-background.png";
+import "./login.css";
+
 
 const Login = () => {
     let navigate = useNavigate();
@@ -51,8 +52,14 @@ const Login = () => {
 
     return (
         <div className="d-flex justify-content-center align-items-center vh-100" style={{marginTop: "-10vh"}}>
-            <div className="card card-container">
 
+
+            <div className="login-form">
+
+                <h1 className="text-center">Login to Join the Sharks!</h1>
+                <img src={sharkTank} className="img-fluid center-image" alt="Left Image"/>
+
+                <div style={{paddingTop: "20px"}}>
                 <Formik
                     initialValues={initialValues}
                     validationSchema={validationSchema}
@@ -90,6 +97,7 @@ const Login = () => {
                         </div>
                     </Form>
                 </Formik>
+                </div>
             </div>
 
             {message && (
@@ -99,7 +107,10 @@ const Login = () => {
                     </div>
                 </div>
             )}
+
+
         </div>
+
 
 
     );
