@@ -44,7 +44,6 @@ export default function Root() {
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="me-auto">
-
                         <LinkContainer to="/invest">
                             <Nav.Link disabled={!isLoggedIn}>Invest</Nav.Link>
                         </LinkContainer>
