@@ -40,7 +40,7 @@ const Login = () => {
         dispatch(login({ username, password }))
             .unwrap()
             .then(() => {
-                navigate("/");
+                navigate("/invest");
                 window.location.reload();
             })
             .catch(() => {
