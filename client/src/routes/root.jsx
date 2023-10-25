@@ -6,12 +6,22 @@ import {useDispatch, useSelector} from "react-redux";
 import {useCallback, useEffect} from "react";
 import {logout} from "../slices/auth";
 import EventBus from "../common/EventBus";
+import {fetchInvestor, getInvestor} from "../slices/investor";
+import {fetchInvestments} from "../slices/investment";
 
 
 export default function Root() {
 
     const dispatch = useDispatch();
-    const { user: currentUser,  isLoggedIn } = useSelector((state) => state.auth);
+    const { user: currentUser,  isLoggedIn } = useSelector((state) => state.auth)
+
+    const investor = useSelector(getInvestor)
+
+    useEffect(() => {
+        if (currentUser?.id) {
+            dispatch(fetchInvestor(currentUser.id))
+        }
+    }, [currentUser?.id]);
 
     const logOut = useCallback(() => {
         console.log("Log out")
@@ -56,7 +66,7 @@ export default function Root() {
                     {isLoggedIn ?
                     <>
                         <Navbar.Text>
-                            Current Team: {currentUser.username}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            Current Team: {investor?.teamName && investor.teamName}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </Navbar.Text>
                         <Nav.Link href="#logout" onClick={logOut}>Log out</Nav.Link>
 

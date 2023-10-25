@@ -30,9 +30,7 @@ const Invest = () => {
   return (
     <div className="container">
 
-        <h1 className="text-center">
-           Team {currentUser.username}
-        </h1>
+
 
 
 

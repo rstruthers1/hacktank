@@ -5,7 +5,7 @@ const investmentRouter = express.Router();
 
 investmentRouter.route('/investment/investors/').get(async (request, response, next) => {
     try {
-        const investors = await knex('users').select('id', 'username', 'budget')
+        const investors = await knex('users').select('id', 'username', 'budget', 'teamName')
         response.json(investors);
     } catch (err) {
         next(err)
@@ -14,7 +14,7 @@ investmentRouter.route('/investment/investors/').get(async (request, response, n
 
 investmentRouter.route('/investment/investors/:id').get(async (request, response, next) => {
     try {
-        const investors = await knex('users').where('id', request.params.id).select('id', 'username', 'budget')
+        const investors = await knex('users').where('id', request.params.id).select('id', 'username', 'budget', 'teamName')
         if (investors  && investors.length > 0) {
             response.json(investors[0])
         } else {
@@ -32,7 +32,7 @@ investmentRouter.route('/investment/investors/:id/hacks/investments').get(async 
         const pocos = await knex('hacks')
             .leftJoin('users', 'hacks.teamId', 'users.id')
             .leftJoin('investments', {'hacks.id':'investments.hackId','investments.investorId':parseInt(request.params.id)})
-            .select('users.id as teamId', 'users.username as teamName', 'investments.id as investmentId', 'investments.capital as investmentCapital', 'hacks.id as hackId','hacks.name as hackName', 'hacks.hackType')
+            .select('users.id as teamId', 'users.teamName as teamName', 'investments.id as investmentId', 'investments.capital as investmentCapital', 'hacks.id as hackId','hacks.name as hackName', 'hacks.hackType')
             .whereNot('hacks.teamId', request.params.id)
         if (pocos  && pocos.length >= 0) {
             response.json(pocos)
@@ -46,7 +46,7 @@ investmentRouter.route('/investment/investors/:id/hacks/investments').get(async 
 
 investmentRouter.route('/investment/investors/:id/hacks/investments').post(async (request, response, next) => {
     try {
-      console.log(`***** post investments: ${JSON.stringify(request.body, null, 2)}`)
+
 
         for (const investment of request.body) {
             const [investments] = await knex("investments")
@@ -64,7 +64,7 @@ investmentRouter.route('/investment/investors/:id/hacks/investments').post(async
         const invs = await knex('hacks')
             .leftJoin('users', 'hacks.teamId', 'users.id')
             .leftJoin('investments', {'hacks.id':'investments.hackId','investments.investorId':parseInt(request.params.id)})
-            .select('users.id as teamId', 'users.username as teamName', 'investments.id as investmentId', 'investments.capital as investmentCapital', 'hacks.id as hackId','hacks.name as hackName', 'hacks.hackType')
+            .select('users.id as teamId', 'users.username as userName', 'users.teamName as teamName', 'investments.id as investmentId', 'investments.capital as investmentCapital', 'hacks.id as hackId','hacks.name as hackName', 'hacks.hackType')
             .whereNot('hacks.teamId', request.params.id)
         response.json(invs)
     } catch(err) {
@@ -77,7 +77,7 @@ investmentRouter.route('/investment/hacks/investments/totals').get(async (reques
         const invs = await knex('hacks as h')
             .leftJoin('users as team', 'h.teamId', 'team.id')
             .leftJoin('investments as inv', 'h.id', 'inv.hackId')
-            .select('h.id as hackId', 'h.name as hackName', 'h.hackType','team.id as teamId', 'team.username as teamName')
+            .select('h.id as hackId', 'h.name as hackName', 'h.hackType','team.id as teamId', 'team.teamName as teamName')
             .sum('inv.capital as totalCapital')
             .groupBy('hackId', 'hackName', 'hackType', 'teamId', 'teamName')
             .orderByRaw('totalCapital desc')
