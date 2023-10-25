@@ -74,9 +74,10 @@ const InvestmentRankings = () => {
 
             <h1 className="text-center" >
                 <img src={sharkTankImageRightFacing} alt="Left" style={{paddingRight: "20px"}} width="150px"/>
-                Hack Shark Tank 2023
+                SLP Hack Shark Tank 2023
                 <img src={sharkTankImageLeftFacing} alt="Left" style={{paddingLeft: "20px"}} width="150px"/>
             </h1>
+            <p style={{fontSize: "small"}} className="text-center" >Created by Rachel Struthers</p>
         <div>
             <h2 className="text-center" style={{marginTop: "20px", marginBottom: "10px"}}>Current Rankings</h2>
             <div className="text-center" style={{color: "white",  fontSize:"large"}}>Total Invested: ${getTotalInvested()}</div>
