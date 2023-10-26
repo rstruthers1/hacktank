@@ -79,7 +79,7 @@ investmentRouter.route('/investment/hacks/investments/totals').get(async (reques
             .leftJoin('investments as inv', 'h.id', 'inv.hackId')
             .select('h.id as hackId', 'h.name as hackName', 'h.hackType','team.id as teamId', 'team.teamName as teamName')
             .sum('inv.capital as totalCapital')
-            .groupBy('hackId', 'hackName', 'hackType', 'teamId', 'teamName')
+            .groupBy('h.id', 'h.name', 'h.hackType', 'team.id', 'team.teamName')
             .orderByRaw('totalCapital desc')
         response.json(invs)
     } catch(err) {
