@@ -1,5 +1,5 @@
 const {ConnectionString} = require('connection-string');
-const con = new ConnectionString(process.env.JAWSDB_URL);
+const con = new ConnectionString(process.env.HACKDB_URL);
 
 
 module.exports = require('knex')({
