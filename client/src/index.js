@@ -19,6 +19,7 @@ import LoginPage from "./components/LoginPage";
 
 import StockTicker2 from "./components/StockTicker2";
 import ChangePassword from "./components/ChangePassword";
+import TeamProfile from "./components/TeamProfile";
 
 
 const router = createBrowserRouter([
@@ -62,6 +63,11 @@ const router = createBrowserRouter([
             {
                 path: "register",
                 element: <Register/>,
+            }
+            ,
+            {
+                path: "profile",
+                element: <TeamProfile/>,
             }
         ]
     }

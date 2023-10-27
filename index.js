@@ -62,6 +62,8 @@ app.set('view engine', 'ejs')
 app.get('/cool', (req, res) => res.send(cool()))
 app.get('/times', (req, res) => res.send(showTimes()))
 // comment
+
+// Magic for serving up react-client for node server
 if (process.env.NODE_ENV === 'production') {
     // Set static folder
     app.use(express.static('client/build'));

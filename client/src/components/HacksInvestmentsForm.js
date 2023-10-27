@@ -13,8 +13,7 @@ import RandomLoadingIndicator from "./RandomLoadingIndicator";
 import 'font-awesome/css/font-awesome.min.css'
 import sharkTankJudgeImageLeftFacing from "../images/shark-judge-facing-left.png";
 import sharkTankJudgeImageRightFacing from "../images/shark-judge-facing-right.png";
-
-
+import {useGetHackEventByIdQuery} from "../services/hackEventApi";
 
 const HacksInvestmentsForm = ({investments, investor}) => {
     const [teamsData, setTeamsData] = useState([])
@@ -27,10 +26,69 @@ const HacksInvestmentsForm = ({investments, investor}) => {
     const investmentsOperationSelector = useSelector(investmentsOperation);
     const { user: currentUser,  isLoggedIn } = useSelector((state) => state.auth);
     const [show, setShow] = useState(false);
+    const [deadline, setDeadline] = useState(null);
+    const [votingOpen, setVotingOpen] = useState(true);
+    const [timeLeft, setTimeLeft] = useState('');
+
+
+    const {
+        data: hackEvent,
+        isLoading,
+        isFetching
+    } = useGetHackEventByIdQuery(1, {
+        skip: false,
+    })
 
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    // Check if the current time is past the deadline
+    useEffect(() => {
+        if (deadline) {
+            const interval = setInterval(() => {
+                const currentTime = new Date();
+                const timeDifference = deadline - currentTime;
+                if (currentTime > deadline) {
+                    setVotingOpen(false);
+                    setTimeLeft('Time is up!');
+                } else {
+
+                    const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+                    let formattedTimeLeft = ""
+                    if (days > 0) {
+                        formattedTimeLeft = `${days}d `;
+                    }
+                    if (hours > 0) {
+                        formattedTimeLeft = `${hours}h `
+                    }
+
+
+                    // Format the time left as a string
+                    formattedTimeLeft = formattedTimeLeft + `${minutes}m ${String(seconds).padStart(2, '0')}s`;
+                    setTimeLeft(formattedTimeLeft);
+                }
+            }, 1000);
+
+            // Clear the interval when the component is unmounted or when voting is closed
+            return () => clearInterval(interval);
+        }
+    }, [deadline]);
+
+    useEffect(() => {
+        console.log(`*** hackEvent: ${JSON.stringify(hackEvent)}`)
+        try {
+            const incomingDeadline = new Date(Date.parse(hackEvent?.votingDeadline));
+            setDeadline(incomingDeadline)
+        } catch (err) {
+            console.error(err)
+        }
+    }, [hackEvent])
+
+
 
     useEffect(() => {
         const output = investments.reduce((acc, curr) => {
@@ -123,6 +181,24 @@ const HacksInvestmentsForm = ({investments, investor}) => {
            </>
    }
 
+    const timeLeftStyle = {
+        fontSize: '24px',
+        fontWeight: 'bold'
+        // Add more CSS styles as needed
+    };
+
+    function getDeadlineString() {
+        let deadlineString = "";
+        if (deadline) {
+            try {
+                deadlineString = deadline.toLocaleString()
+            } catch (err) {
+                console.err(err)
+            }
+        }
+        return deadlineString;
+    }
+
     return (
 
         <>
@@ -171,7 +247,7 @@ const HacksInvestmentsForm = ({investments, investor}) => {
                                     <td>{hack.hackName}</td>
                                     <td>{hack.hackType}</td>
                                     <td><input
-                                        disabled={postedInvestmentsStatusSelector === 'loading'}
+                                        disabled={postedInvestmentsStatusSelector === 'loading' || !votingOpen}
                                         type="text"
                                         value={editedInvestments[`${team.teamId}-${hack.hackId}`]}
                                         onChange={(e) => handleInvestmentChange(team.teamId, hack.hackId, e.target.value)}
@@ -192,6 +268,23 @@ const HacksInvestmentsForm = ({investments, investor}) => {
                             size="medium"/>
                     </div>
                 }
+                <div style={{paddingTop: "20px", textAlign: "center"}}>
+                    <div>
+                        Deadline: {getDeadlineString()}
+                    </div>
+                    <div>
+                        Voting open: {votingOpen ? "Yes" : "No"}
+                    </div>
+                    <div style={{fontSize: 'large',
+                        fontWeight: 'bold'}}>
+                        Time remaining:
+                    </div>
+                    <div>
+                        <pre style={timeLeftStyle}>
+                        {timeLeft}
+                            </pre>
+                    </div>
+                </div>
 
             </div>
             }

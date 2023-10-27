@@ -68,6 +68,9 @@ export default function Root() {
                         <Navbar.Text>
                             Current Team: {investor?.teamName && investor.teamName}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </Navbar.Text>
+                        <LinkContainer to="/profile">
+                            <Nav.Link >Profile</Nav.Link>
+                        </LinkContainer>
                         <Nav.Link href="#logout" onClick={logOut}>Log out</Nav.Link>
 
                     </>:
