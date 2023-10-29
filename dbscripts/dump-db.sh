@@ -1,0 +1,1 @@
+mysqldump -P $PORT -h $HOST -u $USER -p hacktank > hacktank.dump.sql
