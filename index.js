@@ -1,13 +1,9 @@
 const mysql = require('mysql2');
-
-
-const cool = require('cool-ascii-faces')
 const express = require('express')
 require('dotenv').config()
 const app = express();
 const path = require('path')
 const cors = require("cors");
-const animalsRouter = require('./routes/animals')
 const investmentRouter = require('./routes/investment')
 const hackEventRouter = require('./routes/hackevent')
 
@@ -37,19 +33,8 @@ const connection = mysql.createConnection(
 // routes
 require('./routes/auth.routes')(app);
 require('./routes/user.routes')(app);
-app.use('/', animalsRouter);
 app.use('/', investmentRouter)
 app.use('/', hackEventRouter)
-
-
-connection.query(
-    'SELECT * FROM animals',
-    function (err, results, fields) {
-        console.log(results); // results contains rows returned by server
-        console.log(fields); // fields contains extra meta data about results, if available
-    }
-);
-
 
 app.use(express.static(path.join(__dirname, 'public')))
 app.use((err, req, res, next) => {
@@ -58,10 +43,6 @@ app.use((err, req, res, next) => {
 })
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
-// app.get('/', (req, res) => res.render('pages/index'))
-app.get('/cool', (req, res) => res.send(cool()))
-app.get('/times', (req, res) => res.send(showTimes()))
-// comment
 
 // Magic for serving up react-client for node server
 if (process.env.NODE_ENV === 'production') {
@@ -83,16 +64,6 @@ app.listen(PORT, () => console.log(`Listening on ${PORT}`))
             process.kill(process.pid, "SIGINT");
         });
     });
-
-
-function showTimes() {
-    const times = process.env.TIMES || 5
-    let result = ''
-    for (i = 0; i < times; i++) {
-        result += i + ' '
-    }
-    return result
-}
 
 function initial() {
     Role.create({
